@@ -4,18 +4,6 @@
 	"fps": 30,
 	"main": "./script/_bootstrap.js",
 	"assets": {
-		"player": {
-			"type": "image",
-			"width": 384,
-			"height": 256,
-			"path": "image/player.png"
-		},
-		"shot": {
-			"type": "image",
-			"width": 120,
-			"height": 50,
-			"path": "image/shot.png"
-		},
 		"_bootstrap": {
 			"type": "script",
 			"path": "script/_bootstrap.js",
@@ -121,77 +109,11 @@
 			"height": 720,
 			"path": "image/title.png"
 		},
-		"tank": {
-			"type": "image",
-			"width": 800,
-			"height": 547,
-			"path": "image/tank.png"
-		},
-		"fighter": {
-			"type": "image",
-			"width": 800,
-			"height": 602,
-			"path": "image/fighter.png"
-		},
-		"zero": {
-			"type": "image",
-			"width": 500,
-			"height": 344,
-			"path": "image/zero.png"
-		},
-		"soldier": {
-			"type": "image",
-			"width": 384,
-			"height": 256,
-			"path": "image/soldier.png"
-		},
 		"floor": {
 			"type": "image",
-			"width": 512,
-			"height": 512,
+			"width": 1100,
+			"height": 60,
 			"path": "image/floor.png"
-		},
-		"fighter2": {
-			"type": "image",
-			"width": 800,
-			"height": 602,
-			"path": "image/fighter2.png"
-		},
-		"tank2": {
-			"type": "image",
-			"width": 800,
-			"height": 603,
-			"path": "image/tank2.png"
-		},
-		"werpon": {
-			"type": "image",
-			"width": 384,
-			"height": 256,
-			"path": "image/werpon.png"
-		},
-		"effect": {
-			"type": "image",
-			"width": 640,
-			"height": 512,
-			"path": "image/effect.png"
-		},
-		"wall": {
-			"type": "image",
-			"width": 800,
-			"height": 603,
-			"path": "image/wall.png"
-		},
-		"sniper": {
-			"type": "image",
-			"width": 384,
-			"height": 256,
-			"path": "image/sniper.png"
-		},
-		"bg": {
-			"type": "image",
-			"width": 640,
-			"height": 180,
-			"path": "image/bg.png"
 		},
 		"bomb": {
 			"type": "audio",
@@ -211,12 +133,6 @@
 			"systemId": "sound",
 			"duration": 3463
 		},
-		"effect2": {
-			"type": "image",
-			"width": 100,
-			"height": 100,
-			"path": "image/effect2.png"
-		},
 		"se_shot2": {
 			"type": "audio",
 			"path": "audio/se_shot2",
@@ -228,6 +144,34 @@
 			"path": "audio/se_shot3",
 			"systemId": "sound",
 			"duration": 3463
+		},
+		"Actor": {
+			"type": "script",
+			"path": "script/Actor.js",
+			"global": true
+		},
+		"Door": {
+			"type": "script",
+			"path": "script/Door.js",
+			"global": true
+		},
+		"door": {
+			"type": "image",
+			"width": 600,
+			"height": 160,
+			"path": "image/door.png"
+		},
+		"door_base": {
+			"type": "image",
+			"width": 600,
+			"height": 160,
+			"path": "image/door_base.png"
+		},
+		"actor": {
+			"type": "image",
+			"width": 800,
+			"height": 800,
+			"path": "image/actor.png"
 		}
 	},
 	"moduleMainScripts": {

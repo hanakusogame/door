@@ -19,26 +19,17 @@ export class MainScene extends g.Scene {
 				"score",
 				"time",
 				"start",
-				"bg",
-				"player",
-				"werpon",
-				"shot",
-				"tank",
-				"tank2",
-				"fighter",
-				"fighter2",
-				"soldier",
-				"zero",
-				"wall",
-				"sniper",
 				"floor",
-				"effect",
-				"effect2",
 				"glyph",
 				"number",
 				"number_red",
 				"config",
 				"volume",
+
+				"door_base",
+				"door",
+				"actor",
+
 				"bgm",
 				"se_start",
 				"se_timeup",
@@ -51,7 +42,7 @@ export class MainScene extends g.Scene {
 		});
 
 		const timeline = new tl.Timeline(this);
-		const timeLimit = 120; // 制限時間
+		const timeLimit = 90; // 制限時間
 		const isDebug = true;
 		let time = 0;
 		const version = "ver. 1.05";
