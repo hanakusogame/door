@@ -172,6 +172,18 @@
 			"width": 800,
 			"height": 800,
 			"path": "image/actor.png"
+		},
+		"level": {
+			"type": "image",
+			"width": 50,
+			"height": 50,
+			"path": "image/level.png"
+		},
+		"effect": {
+			"type": "image",
+			"width": 360,
+			"height": 120,
+			"path": "image/effect.png"
 		}
 	},
 	"moduleMainScripts": {

@@ -9,6 +9,7 @@ export class MainScene extends g.Scene {
 	public addScore: (score: number) => void;
 	public playSound: (name: string) => void;
 	public isStart = false;
+	public font: g.Font;
 
 	constructor(param: GameMainParameterObject) {
 		super({
@@ -29,6 +30,8 @@ export class MainScene extends g.Scene {
 				"door_base",
 				"door",
 				"actor",
+				"level",
+				"effect",
 
 				"bgm",
 				"se_start",
@@ -152,6 +155,7 @@ export class MainScene extends g.Scene {
 					src: this.asset.getImageById("number"),
 					glyphInfo: glyphInfo,
 				});
+				this.font = font;
 
 				// ビットマップフォントを生成
 				var fontRed = new g.BitmapFont({

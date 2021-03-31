@@ -1,3 +1,4 @@
+import tl = require("@akashic-extension/akashic-timeline");
 import { Actor } from "./Actor";
 import { Door } from "./Door";
 import { MainScene } from "./MainScene";
@@ -7,6 +8,7 @@ export class MainGame extends g.E {
 	constructor() {
 		const scene = g.game.scene() as MainScene;
 		super({ scene: scene, width: g.game.width, height: g.game.height, touchable: true });
+		const timeline = new tl.Timeline(scene);
 
 		// ベース
 		const base = new g.E({
@@ -44,12 +46,13 @@ export class MainGame extends g.E {
 		let count = 0;
 		for (let y = 0; y < 3; y++) {
 			for (let x = 0; x < 3; x++) {
-				const door = new Door(scene, 300 * x + 130 - ((3 - y) * -30), 200 * y + 60, count, colors[count % 5]);
-				base.append(door);
+				const door = new Door(scene, 300 * x + 130, -200, count, colors[count % 5]);
+				floors[y].append(door);
 				doors[count] = door;
 				// タップイベント
 				const i = count;
 				door.onPointDown.add(() => {
+					if (!scene.isStart) return;
 					door.isOpen = !door.isOpen;
 					const doorExit = i !== 4 ? doors[(i + 5) % (Math.round(doors.length / 2) * 2)] : null; //出口
 					if (door.isOpen) {
@@ -72,11 +75,10 @@ export class MainGame extends g.E {
 			{
 				scene: scene,
 				x: (floors[1].width - 10) / 2,
-				y: floors[1].y - 120,
+				y: -120,
 				width: 10,
 				height: 120,
-				cssColor: "white",
-				parent: base,
+				parent: floors[1],
 			},
 			true
 		);
@@ -91,11 +93,10 @@ export class MainGame extends g.E {
 				{
 					scene: scene,
 					x: floors[0].width * num,
-					y: floors[j].y - 120,
+					y: -120,
 					width: 10,
 					height: 120,
-					cssColor: "red",
-					parent: base,
+					parent: floors[j],
 				},
 				false
 			);
@@ -108,10 +109,49 @@ export class MainGame extends g.E {
 			if (!b.isPlayer) {
 				a.levelUp();
 				b.remove();
+
+				a.isStop = true;
+				timeline
+					.create(a)
+					.scaleTo(1.3, 1.3, 300)
+					.scaleTo(1.0, 1.0, 300)
+					.call(() => {
+						a.isStop = false;
+					});
 			}
 
+			//プレイヤーが倒した時
 			if (a.isPlayer) {
-				scene.addScore(b.level ** 2 * 50);
+				//エフェクト作成
+				const effect = new g.FrameSprite({
+					scene: scene,
+					src: scene.asset.getImageById("effect"),
+					x: b.x,
+					y: b.y,
+					scaleX: 2.0,
+					scaleY: 2.0,
+					width: 120,
+					height: 120,
+					anchorX: 0.5,
+					anchorY: 0.5,
+					frames: [0, 1, 2],
+					interval: 200,
+					parent: a.parent,
+				});
+				effect.start();
+				a.isStop = true;
+
+				//回転斬り
+				timeline.create(a.spr).rotateTo(360 * a.muki, 300);
+
+				setTimeout(() => {
+					effect.destroy();
+					a.isStop = false;
+					a.spr.angle = 0;
+					a.spr.modified();
+				}, 1000);
+
+				scene.addScore(b.level ** 2 * 120);
 			}
 			return;
 		};
@@ -119,9 +159,16 @@ export class MainGame extends g.E {
 		// キャラクター
 		actors.forEach((actorA) => {
 			actorA.onUpdate.add(() => {
+				if (!scene.isStart) return;
 				// 当たり判定
 				actors.forEach((actorB) => {
-					if (actorB !== actorA && actorA.parent && actorB.parent && g.Collision.intersectAreas(actorB, actorA)) {
+					if (
+						actorB !== actorA &&
+						actorA.parent &&
+						actorB.parent &&
+						actorA.parent === actorB.parent &&
+						actorA.collision(actorB)
+					) {
 						// レベルが高い方を残す
 						if (actorA.level < actorB.level) {
 							killActor(actorB, actorA);
@@ -137,16 +184,17 @@ export class MainGame extends g.E {
 		this.onUpdate.add(() => {
 			// ドアとの接触
 			actors.forEach((actor) => {
+				// 生きている
 				if (actor.parent) {
-					// 生きている
+					if (actor.isStop) return;
 
 					//ドアに入る
 					doors.forEach((door, i) => {
-						if (g.Collision.intersectAreas(door, actor) && door.isOpen) {
+						if (door.parent === actor.parent && g.Collision.intersectAreas(door, actor) && door.isOpen) {
 							const num = (i + 5) % (doors.length + (doors.length % 2));
 							const doorNext = i !== 4 ? doors[num] : doors[g.game.random.get(0, 8)];
 							actor.x = doorNext.x + (doorNext.width - actor.width) / 2;
-							actor.y = doorNext.y + (doorNext.height - actor.height);
+							doorNext.parent.append(actor);
 							actor.modified();
 
 							door.close();
@@ -157,22 +205,20 @@ export class MainGame extends g.E {
 					});
 
 					// 方向転換
-					const left = actor.speed > 0 && actor.x > base.width - actor.width;
-					const right = actor.speed < 0 && actor.x < 0;
+					const left = actor.muki > 0 && actor.x > base.width - actor.width;
+					const right = actor.muki < 0 && actor.x < 0;
 					if (left || right) actor.turn();
-					actor.x += actor.speed;
+
+					//移動
+					actor.x += actor.speed * actor.muki;
 					actor.modified();
 				} else {
 					// 死んでいる 場合復活
-					base.append(actor);
 					const x = g.game.random.generate() < 0.5 ? 0 : floors[0].width;
 					const floorNum = Math.floor(g.game.random.generate() * floors.length);
-					const y = floors[floorNum].y - actor.height;
+					floors[floorNum].append(actor);
 					actor.x = x;
-					actor.y = y;
-					actor.level = 0;
-					actor.levelUp();
-					actor.modified();
+					actor.init();
 				}
 			});
 
