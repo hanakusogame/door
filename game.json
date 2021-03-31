@@ -89,7 +89,7 @@
 			"type": "audio",
 			"path": "audio/bgm",
 			"systemId": "music",
-			"duration": 53732
+			"duration": 38400
 		},
 		"se_start": {
 			"type": "audio",
@@ -114,36 +114,6 @@
 			"width": 1100,
 			"height": 60,
 			"path": "image/floor.png"
-		},
-		"bomb": {
-			"type": "audio",
-			"path": "audio/bomb",
-			"systemId": "sound",
-			"duration": 2555
-		},
-		"guaa": {
-			"type": "audio",
-			"path": "audio/guaa",
-			"systemId": "sound",
-			"duration": 1005
-		},
-		"se_shot": {
-			"type": "audio",
-			"path": "audio/se_shot",
-			"systemId": "sound",
-			"duration": 3463
-		},
-		"se_shot2": {
-			"type": "audio",
-			"path": "audio/se_shot2",
-			"systemId": "sound",
-			"duration": 1093
-		},
-		"se_shot3": {
-			"type": "audio",
-			"path": "audio/se_shot3",
-			"systemId": "sound",
-			"duration": 3463
 		},
 		"Actor": {
 			"type": "script",
@@ -184,6 +154,24 @@
 			"width": 360,
 			"height": 120,
 			"path": "image/effect.png"
+		},
+		"se_clear": {
+			"type": "audio",
+			"path": "audio/se_clear",
+			"systemId": "sound",
+			"duration": 732
+		},
+		"se_miss": {
+			"type": "audio",
+			"path": "audio/se_miss",
+			"systemId": "sound",
+			"duration": 360
+		},
+		"se_move": {
+			"type": "audio",
+			"path": "audio/se_move",
+			"systemId": "sound",
+			"duration": 105
 		}
 	},
 	"moduleMainScripts": {
@@ -196,7 +184,7 @@
 				"ranking"
 			],
 			"preferredSessionParameters": {
-				"totalTimeLimit": 140
+				"totalTimeLimit": 110
 			}
 		}
 	},

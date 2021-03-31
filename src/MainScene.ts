@@ -36,19 +36,18 @@ export class MainScene extends g.Scene {
 				"bgm",
 				"se_start",
 				"se_timeup",
-				"se_shot",
-				"se_shot2",
-				"se_shot3",
-				"bomb",
-				"guaa",
+
+				"se_move",
+				"se_clear",
+				"se_miss"
 			],
 		});
 
 		const timeline = new tl.Timeline(this);
 		const timeLimit = 90; // 制限時間
-		const isDebug = true;
+		const isDebug = false;
 		let time = 0;
-		const version = "ver. 1.05";
+		const version = "ver. 1.00";
 
 		// ミニゲームチャット用モードの取得と乱数シード設定
 		let mode = "";
@@ -64,7 +63,7 @@ export class MainScene extends g.Scene {
 		g.game.vars.gameState = { score: 0 };
 		this.onLoad.add(() => {
 			const bgm = this.asset.getAudioById("bgm").play();
-			bgm.changeVolume(isDebug ? 0.0 : 0.3);
+			bgm.changeVolume(isDebug ? 0.0 : 0.2);
 
 			//背景
 			const bg = new g.FilledRect({
@@ -106,7 +105,7 @@ export class MainScene extends g.Scene {
 				.create(sprTitle, {
 					modified: sprTitle.modified,
 				})
-				.wait(isDebug ? 1000 : 8000)
+				.wait(isDebug ? 1000 : 5000)
 				.moveBy(-1280, 0, 200)
 				.call(() => {
 					init();

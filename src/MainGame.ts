@@ -62,6 +62,7 @@ export class MainGame extends g.E {
 						door.close();
 						doorExit?.close();
 					}
+					scene.playSound("se_miss");
 				});
 				count++;
 			}
@@ -118,6 +119,10 @@ export class MainGame extends g.E {
 					.call(() => {
 						a.isStop = false;
 					});
+
+				if (!a.isPlayer) {
+					scene.playSound("se_move");
+				}
 			}
 
 			//プレイヤーが倒した時
@@ -152,6 +157,8 @@ export class MainGame extends g.E {
 				}, 1000);
 
 				scene.addScore(b.level ** 2 * 120);
+
+				scene.playSound("se_clear");
 			}
 			return;
 		};
@@ -162,13 +169,8 @@ export class MainGame extends g.E {
 				if (!scene.isStart) return;
 				// 当たり判定
 				actors.forEach((actorB) => {
-					if (
-						actorB !== actorA &&
-						actorA.parent &&
-						actorB.parent &&
-						actorA.parent === actorB.parent &&
-						actorA.collision(actorB)
-					) {
+					if (actorB !== actorA && actorA.parent && actorB.parent
+						&& actorA.parent === actorB.parent && actorA.collision(actorB)) {
 						// レベルが高い方を残す
 						if (actorA.level < actorB.level) {
 							killActor(actorB, actorA);
@@ -214,7 +216,7 @@ export class MainGame extends g.E {
 					actor.modified();
 				} else {
 					// 死んでいる 場合復活
-					const x = g.game.random.generate() < 0.5 ? 0 : floors[0].width;
+					const x = g.game.random.generate() < 0.5 ? -100 : floors[0].width + 100;
 					const floorNum = Math.floor(g.game.random.generate() * floors.length);
 					floors[floorNum].append(actor);
 					actor.x = x;
