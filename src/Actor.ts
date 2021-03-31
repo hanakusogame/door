@@ -1,3 +1,4 @@
+import { Door } from "./Door";
 import { MainScene } from "./MainScene";
 
 //アクター
@@ -12,6 +13,7 @@ export class Actor extends g.E {
 	public isStop = false;
 	public spr: g.FrameSprite;
 	public collisionArea: g.E;
+	public door: Door;
 	public collision: (actor: Actor) => boolean;
 
 	constructor(pram: g.EParameterObject, isPlayer: boolean) {

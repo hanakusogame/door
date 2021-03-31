@@ -190,21 +190,29 @@ export class MainGame extends g.E {
 				if (actor.parent) {
 					if (actor.isStop) return;
 
+
+					let isDoor = false;//連打防止(なぜかUターンまで可能)
+
 					//ドアに入る
 					doors.forEach((door, i) => {
-						if (door.parent === actor.parent && g.Collision.intersectAreas(door, actor) && door.isOpen) {
-							const num = (i + 5) % (doors.length + (doors.length % 2));
-							const doorNext = i !== 4 ? doors[num] : doors[g.game.random.get(0, 8)];
-							actor.x = doorNext.x + (doorNext.width - actor.width) / 2;
-							doorNext.parent.append(actor);
-							actor.modified();
+						if (door.parent === actor.parent && g.Collision.intersectAreas(door, actor)) {
+							if (door.isOpen && !actor.door) {
+								const num = (i + 5) % (doors.length + (doors.length % 2));
+								const doorNext = i !== 4 ? doors[num] : doors[g.game.random.get(0, 8)];
+								actor.x = doorNext.x + (doorNext.width - actor.width) / 2;
+								doorNext.parent.append(actor);
+								actor.modified();
+								actor.door = door;
 
-							door.close();
-							doorNext.close();
-
-							return;
+								door.close();
+								doorNext.close();
+								return;
+							}
+							isDoor = true;
 						}
 					});
+
+					if (!isDoor) actor.door = null;
 
 					// 方向転換
 					const left = actor.muki > 0 && actor.x > base.width - actor.width;
