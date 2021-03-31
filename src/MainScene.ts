@@ -32,6 +32,7 @@ export class MainScene extends g.Scene {
 				"actor",
 				"level",
 				"effect",
+				"shadow",
 
 				"bgm",
 				"se_start",
@@ -47,7 +48,7 @@ export class MainScene extends g.Scene {
 		const timeLimit = 90; // 制限時間
 		const isDebug = false;
 		let time = 0;
-		const version = "ver. 1.00";
+		const version = "ver. 1.10";
 
 		// ミニゲームチャット用モードの取得と乱数シード設定
 		let mode = "";
@@ -70,9 +71,9 @@ export class MainScene extends g.Scene {
 				scene: this,
 				width: g.game.width,
 				height: g.game.height,
-				cssColor: "gray",
+				cssColor: "navy",
 				parent: this,
-				opacity: param.isAtsumaru || isDebug ? 1.0 : 0.5,
+				opacity: param.isAtsumaru || isDebug ? 1.0 : 0.8,
 			});
 
 			const base = new g.E({

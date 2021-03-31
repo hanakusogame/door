@@ -172,6 +172,12 @@
 			"path": "audio/se_move",
 			"systemId": "sound",
 			"duration": 105
+		},
+		"shadow": {
+			"type": "image",
+			"width": 120,
+			"height": 18,
+			"path": "image/shadow.png"
 		}
 	},
 	"moduleMainScripts": {

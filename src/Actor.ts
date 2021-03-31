@@ -31,6 +31,16 @@ export class Actor extends g.E {
 			parent: this,
 		});
 
+		new g.Sprite({
+			scene: scene,
+			src: scene.asset.getImageById("shadow"),
+			x: 10 / 2,
+			y: 120,
+			anchorX: 0.5,
+			anchorY: 0.5,
+			parent: this,
+		});
+
 		const spr = new g.FrameSprite({
 			scene: scene,
 			src: scene.asset.getImageById("actor"),
