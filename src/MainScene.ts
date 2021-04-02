@@ -48,7 +48,7 @@ export class MainScene extends g.Scene {
 		const timeLimit = 90; // 制限時間
 		const isDebug = false;
 		let time = 0;
-		const version = "ver. 1.10";
+		const version = "ver. 1.12";
 
 		// ミニゲームチャット用モードの取得と乱数シード設定
 		let mode = "";
@@ -254,7 +254,7 @@ export class MainScene extends g.Scene {
 						//window.RPGAtsumaru.scoreboards.setRecord(1, g.game.vars.gameState.score).then(() => {
 						//window.RPGAtsumaru.scoreboards.display(1);
 						//});
-						window.RPGAtsumaru.scoreboards.display(1);
+						window.RPGAtsumaru.scoreboards.display(2);
 					};
 				}
 
@@ -267,7 +267,7 @@ export class MainScene extends g.Scene {
 					if (time <= 0) {
 						// RPGアツマール環境であればランキングを設定
 						if (param.isAtsumaru) {
-							const boardId = 1;
+							const boardId = 2;
 							const board = window.RPGAtsumaru.scoreboards;
 							board.setRecord(boardId, g.game.vars.gameState.score).then(() => {
 								//board.display(boardId);

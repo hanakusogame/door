@@ -25,7 +25,7 @@ export class MainGame extends g.E {
 			floors[y] = new g.E({
 				scene: scene,
 				x: (3 - y) * 30,
-				y: 200 * y + 100 + 150,
+				y: 200 * y + 100 + 170,
 				width: 1000,
 				height: 20,
 				parent: base,

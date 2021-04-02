@@ -147,7 +147,7 @@ export class Config extends g.FilledRect {
 		base.append(btnRank);
 		btnRank.pushEvent = () => {
 			if (typeof window !== "undefined" && window.RPGAtsumaru) {
-				window.RPGAtsumaru.scoreboards.display(1);
+				window.RPGAtsumaru.scoreboards.display(2);
 			}
 		};
 

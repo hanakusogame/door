@@ -48,32 +48,33 @@ export class Actor extends g.E {
 			src: scene.asset.getImageById("actor"),
 			x: 10 / 2,
 			y: -80 + 100,
-			width: 200,
-			height: 200,
-			frames: isPlayer ? [0, 1] : [8, 9],
+			width: 250,
+			height: 250,
+			frames: isPlayer ? [0, 1] : [4, 5],
 			parent: this,
 			interval: 300,
 			anchorX: 0.5,
-			anchorY: 0.5,
+			anchorY: 0.55,
 		});
 		this.spr = spr;
 		spr.start();
 
-		new g.Sprite({
+		const sprLevel = new g.Sprite({
 			scene: scene,
 			src: scene.asset.getImageById("level"),
 			x: -60,
-			y: -80,
+			y: -70,
 			parent: this,
 		});
 
 		const label = new g.Label({
 			scene: scene,
-			y: -80,
 			font: scene.font,
+			x: 50,
+			y: 0,
 			fontSize: 28,
 			text: "" + this.level,
-			parent: this,
+			parent: sprLevel,
 		});
 
 		//レベルアップ
@@ -82,9 +83,11 @@ export class Actor extends g.E {
 			this.speed += 0.2;
 			label.text = "" + this.level;
 			label.invalidate();
-			if (this.level % 5 === 0 && this.level <= 15 && !isPlayer) {
-				const num = (this.level / 5) * 2 + 8;
+			if (this.level % 5 === 0 && this.level <= 25 && !isPlayer) {
+				const num = (this.level / 5) * 2 + 4;
 				spr.frames = [num, num + 1];
+				sprLevel.y -= 10;
+				sprLevel.modified();
 			}
 		};
 
@@ -97,9 +100,15 @@ export class Actor extends g.E {
 
 		//初期化
 		this.init = () => {
-			spr.frames = [8, 9];
+			spr.frames = [4, 5];
+			spr.frameNumber = 0;
+			spr.modified();
 			this.level = 0;
 			this.speed = 3;
+
+			sprLevel.y = -70;
+			sprLevel.modified();
+
 			this.levelUp();
 			this.modified();
 		};
