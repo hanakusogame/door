@@ -40,7 +40,7 @@ export class MainScene extends g.Scene {
 
 				"se_move",
 				"se_clear",
-				"se_miss"
+				"se_miss",
 			],
 		});
 
@@ -48,7 +48,7 @@ export class MainScene extends g.Scene {
 		const timeLimit = 90; // 制限時間
 		const isDebug = false;
 		let time = 0;
-		const version = "ver. 1.12";
+		const version = "ver. 1.13";
 
 		// ミニゲームチャット用モードの取得と乱数シード設定
 		let mode = "";
@@ -264,29 +264,29 @@ export class MainScene extends g.Scene {
 				};
 
 				const updateHandler = (): void => {
-					if (time <= 0) {
+					if (time < 0) {
 						// RPGアツマール環境であればランキングを設定
-						if (param.isAtsumaru) {
-							const boardId = 2;
-							const board = window.RPGAtsumaru.scoreboards;
-							board.setRecord(boardId, g.game.vars.gameState.score).then(() => {
-								//board.display(boardId);
-							});
-						}
+						this.setTimeout(() => {
+							if (param.isAtsumaru) {
+								const boardId = 2;
+								const board = window.RPGAtsumaru.scoreboards;
+								board.setRecord(boardId, g.game.vars.gameState.score).then(() => {
+									btnReset?.show();
+									btnRanking?.show();
+								});
+							}
 
-						// ミニゲームチャット用ランキング設定
-						if (mode === "game") {
-							(window as Window).parent.postMessage({ score: g.game.vars.gameState.score, id: 1 }, "*");
-							btnReset.show();
-						}
+							// ミニゲームチャット用ランキング設定
+							if (mode === "game") {
+								(window as Window).parent.postMessage({ score: g.game.vars.gameState.score, id: 1 }, "*");
+								btnReset.show();
+							}
+						}, 500);
 
 						//終了表示
 						stateSpr.frameNumber = 1;
 						stateSpr.modified();
 						stateSpr.show();
-
-						btnReset?.show();
-						btnRanking?.show();
 
 						this.isStart = false;
 
@@ -311,7 +311,7 @@ export class MainScene extends g.Scene {
 
 				// スコア追加
 				this.addScore = (score) => {
-					if (time < 0) return;
+					// if (time < 0) return;
 					g.game.vars.gameState.score += score;
 					timeline.create(this).every((e: number, p: number) => {
 						scoreLabel.text = "" + (g.game.vars.gameState.score - Math.floor(score * (1 - p))) + "P";

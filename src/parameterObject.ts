@@ -6,7 +6,7 @@ export interface GameMainParameterObject extends g.GameMainParameterObject {
 		randomSeed?: number;
 	};
 	isAtsumaru: boolean;
-	random: g.RandomGenerator;
+	//random: g.RandomGenerator;
 }
 
 export interface RPGAtsumaruWindow {
